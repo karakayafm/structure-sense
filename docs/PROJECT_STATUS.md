@@ -7,11 +7,12 @@
 - Faz 0 belge taslakları ve Faz 1 mesafe dikey dilimi hazırlandı.
 - Lint, typecheck, 5 test ve production build geçiyor; npm audit 0 açık bildiriyor.
 - Chromium + yazılımsal WebGL ile 1440×900 masaüstü ve 390×844 mobil görünüm doğrulandı; 1CRN sahnesi yüklendi.
-- GitHub kimlik bilgisi geçersiz; push ve PR öncesi kullanıcı yetkisi gerekiyor.
+- GitHub deposu oluşturuldu; çalışan Faz 1 checkpoint'i `main` dalına yedeklendi.
+- CI ve Pages iş akışları özellik dalındaki draft PR ile doğrulanacak.
 
 ## Sıradaki
 
-Git checkpoint'i ve GitHub yetkisi sağlandığında push/draft PR; ardından Faz 2 seçim durum makinesi ve açı/dihedral ölçümleri.
+Draft PR kontrolleri ve ardından Faz 2 seçim durum makinesi ile açı/dihedral ölçümleri.
 
 ## Bilinen sınırlamalar
 
