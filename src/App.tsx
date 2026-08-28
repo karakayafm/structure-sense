@@ -1,65 +1,68 @@
 import { useCallback, useMemo, useState } from 'react'
 import { MoleculeViewer } from './components/MoleculeViewer'
 import { distance } from './geometry/geometry'
+import { useI18n } from './i18n/context'
+import type { StatusKey } from './i18n/strings'
 import type { AtomInfo } from './viewer/types'
 
-const atomLabel = (atom: AtomInfo) => `${atom.atomName} · ${atom.residueName} ${atom.residueNumber} · zincir ${atom.chain}`
-
 export default function App() {
+  const { t, language, toggleLanguage } = useI18n()
   const [atoms, setAtoms] = useState<AtomInfo[]>([])
-  const [status, setStatus] = useState('1CRN örnek yapısı yükleniyor…')
+  const [status, setStatus] = useState<StatusKey>('loading')
   const value = useMemo(() => atoms.length === 2 ? distance(atoms[0], atoms[1]) : null, [atoms])
   const onPick = useCallback((atom: AtomInfo) => {
     setAtoms((current) => current.length >= 2 ? [atom] : [...current, atom])
   }, [])
-  const ready = useCallback(() => setStatus('Yapı hazır. Bir atom seçin.'), [])
-  const error = useCallback((message: string) => setStatus(message), [])
+  const ready = useCallback(() => setStatus('ready'), [])
+  const error = useCallback(() => setStatus('loadError'), [])
 
   return <div className="app-shell">
     <header className="topbar">
-      <a className="brand" href="#main" aria-label="Structure Sense ana içerik">Structure <span>Sense</span></a>
-      <div className="structure-pill"><span aria-hidden="true">●</span> Örnek yapı · 1CRN</div>
-      <button className="language" type="button" disabled aria-label="Dil: Türkçe">TR</button>
+      <a className="brand" href="#main" aria-label={t.brandAriaLabel}>Structure <span>Sense</span></a>
+      <div className="structure-pill"><span aria-hidden="true">●</span> {t.structurePill}</div>
+      <button className="language" type="button" lang={language === 'tr' ? 'en' : 'tr'} onClick={toggleLanguage} aria-label={t.switchAriaLabel}>{t.switchLabel}</button>
     </header>
     <main id="main" className="workspace">
-      <nav className="lesson-nav" aria-label="Öğrenme adımları">
-        <p className="eyebrow">REHBERLİ ÖĞRENME</p>
-        <h2>Geometriyi hisset</h2>
+      <nav className="lesson-nav" aria-label={t.nav.ariaLabel}>
+        <p className="eyebrow">{t.nav.eyebrow}</p>
+        <h2>{t.nav.title}</h2>
         <ol>
-          <li><span>01</span> Protein nedir?</li>
-          <li className="active" aria-current="step"><span>02</span><strong>2 atom: Mesafe</strong></li>
-          <li aria-disabled="true"><span>03</span> 3 atom: Açı</li>
-          <li aria-disabled="true"><span>04</span> 4 atom: Dihedral</li>
+          {t.nav.steps.map((step, index) => {
+            const number = `0${index + 1}`
+            return index === 1
+              ? <li className="active" aria-current="step" key={number}><span>{number}</span><strong>{step}</strong></li>
+              : <li aria-disabled={index > 1 || undefined} key={number}><span>{number}</span> {step}</li>
+          })}
         </ol>
-        <p className="privacy">Bu yapı cihazınızda işlenir. Sunucuya dosya yüklenmez.</p>
+        <p className="privacy">{t.nav.privacy}</p>
       </nav>
       <section className="stage-panel" aria-labelledby="stage-title">
-        <div className="stage-heading"><div><p className="eyebrow">GÖSTER</p><h1 id="stage-title">İki atom arasındaki boşluk</h1></div><p className="status" aria-live="polite">{status}</p></div>
+        <div className="stage-heading"><div><p className="eyebrow">{t.stage.eyebrow}</p><h1 id="stage-title">{t.stage.title}</h1></div><p className="status" aria-live="polite">{t.stage.status[status]}</p></div>
         <div className="viewer-frame">
           <MoleculeViewer atoms={atoms} onPick={onPick} onReady={ready} onError={error} />
-          <div className="selection-progress">{atoms.length}/2 atom seçildi</div>
+          <div className="selection-progress">{t.stage.progress(atoms.length, 2)}</div>
         </div>
-        <p className="viewer-help">Döndürmek için sürükle · Yakınlaştırmak için kaydır · Seçmek için atoma dokun</p>
+        <p className="viewer-help">{t.stage.help}</p>
       </section>
       <aside className="concept-card" aria-labelledby="concept-title">
-        <p className="eyebrow">AÇIKLA &amp; DENE</p>
-        <h2 id="concept-title">Mesafe</h2>
-        <p>Mesafe, iki atomun merkezleri arasındaki düz çizginin uzunluğudur.</p>
-        <div className="atom-sequence" aria-label="İki atomlu mesafe şeması"><span>1</span><i></i><span>2</span></div>
-        <p className="instruction">Yapıdaki belirgin çubuk-küre atomlardan ikisini sırayla seç.</p>
+        <p className="eyebrow">{t.concept.eyebrow}</p>
+        <h2 id="concept-title">{t.concept.title}</h2>
+        <p>{t.concept.summary}</p>
+        <div className="atom-sequence" aria-label={t.concept.diagramAriaLabel}><span>1</span><i></i><span>2</span></div>
+        <p className="instruction">{t.concept.instruction}</p>
         <div className="picked-list">
-          {[0, 1].map((index) => <div className="picked" key={index}><b>{index + 1}</b><span>{atoms[index] ? atomLabel(atoms[index]) : 'Atom bekleniyor'}</span></div>)}
+          {[0, 1].map((index) => <div className="picked" key={index}><b>{index + 1}</b><span>{atoms[index] ? t.atomLabel(atoms[index]) : t.concept.waiting}</span></div>)}
         </div>
         <div className="measurement" aria-live="polite">
-          <span>Ölçülen mesafe</span>
+          <span>{t.concept.measurementLabel}</span>
           <strong>{value === null ? '—' : `${value.toFixed(2)} Å`}</strong>
-          <small>Å, atom ölçeğinde kullanılan Ångström birimidir.</small>
+          <small>{t.concept.unitNote}</small>
         </div>
         <div className="actions">
-          <button type="button" onClick={() => setAtoms((current) => current.slice(0, -1))} disabled={!atoms.length}>Geri al</button>
-          <button type="button" onClick={() => setAtoms([])} disabled={!atoms.length}>Temizle</button>
+          <button type="button" onClick={() => setAtoms((current) => current.slice(0, -1))} disabled={!atoms.length}>{t.concept.undo}</button>
+          <button type="button" onClick={() => setAtoms([])} disabled={!atoms.length}>{t.concept.clear}</button>
         </div>
-        <details><summary>Biraz daha derin</summary><p>Koordinat dosyasındaki tam hassasiyetle hesaplarız; yalnız gösterilen sonucu iki ondalık basamağa yuvarlarız. “Yakın” sayılması etkileşimin türüne bağlıdır.</p></details>
+        <details><summary>{t.concept.deeperSummary}</summary><p>{t.concept.deeperBody}</p></details>
       </aside>
     </main>
   </div>
