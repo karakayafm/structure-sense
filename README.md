@@ -17,7 +17,7 @@ Kalite komutları: `npm run lint`, `npm run typecheck`, `npm test`, `npm run bui
 
 ## Dil
 
-Arayüz Türkçe ve İngilizce sunulur. Başlıktaki dil düğmesi tüm dersi anında çevirir, seçim `localStorage` ile hatırlanır ve `<html lang>` güncellenir; ilk açılışta tarayıcı dili İngilizceyse İngilizce, değilse Türkçe başlar. Tüm arayüz metni `src/i18n/strings.ts` içindeki iki sözlüktedir; her iki sözlük de aynı `Copy` tipini kullandığı için eksik çeviri derleme hatası verir.
+Arayüz Türkçe ve İngilizce sunulur ve **varsayılan olarak İngilizce** açılır. Başlıktaki dil düğmesi tüm dersi anında çevirir, seçim `localStorage` ile hatırlanır ve sonraki ziyarette geri yüklenir; `<html lang>` de birlikte güncellenir. Tüm arayüz metni `src/i18n/strings.ts` içindeki iki sözlüktedir; her iki sözlük de aynı `Copy` tipini kullandığı için eksik çeviri derleme hatası verir.
 
 ## In English
 

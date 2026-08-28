@@ -10,4 +10,4 @@ Crambin 46 rezidülü, küçük ve öğretim için hızlıdır. RCSB kaynağınd
 
 ## ADR-003 — Sözlük tabanlı iki dillilik
 
-Arayüz metni `src/i18n/strings.ts` içinde dile göre iki sözlükte tutulur; İngilizce sözlük Türkçe sözlükten türeyen `Copy` tipiyle yazılır, böylece eksik anahtar derleme hatası olur. Kütüphane eklenmez: `LanguageProvider` seçimi `localStorage` içinde saklar, `<html lang>` değerini günceller ve ilk açılışta tarayıcı dilini okur; İngilizce istemeyen tarayıcılarda varsayılan Türkçedir.
+Arayüz metni `src/i18n/strings.ts` içinde dile göre iki sözlükte tutulur; İngilizce sözlük Türkçe sözlükten türeyen `Copy` tipiyle yazılır, böylece eksik anahtar derleme hatası olur. Kütüphane eklenmez: `LanguageProvider` seçimi `localStorage` içinde saklar ve `<html lang>` değerini günceller. Uluslararası erişim öncelikli olduğu için kayıtlı tercih yoksa varsayılan dil İngilizcedir; tarayıcı dili okunmaz, böylece ilk boyama ile React sonrası aynı dili gösterir.

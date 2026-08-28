@@ -9,7 +9,7 @@
 - Chromium + yazılımsal WebGL ile 1440×900 masaüstü ve 390×844 mobil görünüm doğrulandı; 1CRN sahnesi yüklendi.
 - GitHub deposu oluşturuldu; çalışan Faz 1 checkpoint'i `main` dalına yedeklendi.
 - CI ve Pages iş akışları özellik dalındaki draft PR ile doğrulanacak.
-- Arayüz Türkçe/İngilizce iki dilli; başlıktaki dil düğmesi tüm dersi çevirir, seçim tarayıcıda saklanır.
+- Arayüz Türkçe/İngilizce iki dilli; varsayılan İngilizce, başlıktaki dil düğmesi tüm dersi çevirir ve seçim tarayıcıda saklanır.
 
 ## Sıradaki
 

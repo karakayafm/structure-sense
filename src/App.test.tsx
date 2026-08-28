@@ -6,8 +6,22 @@ import type { Language } from './i18n/strings'
 
 vi.mock('./components/MoleculeViewer', () => ({ MoleculeViewer: () => <div aria-label="mock viewer" /> }))
 
-const renderApp = (initialLanguage: Language) =>
+const renderApp = (initialLanguage?: Language) =>
   render(<LanguageProvider initialLanguage={initialLanguage}><App /></LanguageProvider>)
+
+beforeEach(() => localStorage.clear())
+
+it('starts in English when the visitor has no stored preference', () => {
+  renderApp()
+  expect(screen.getByRole('heading', { name: 'The gap between two atoms' })).toBeInTheDocument()
+  expect(document.documentElement.lang).toBe('en')
+})
+
+it('restores the language stored by an earlier visit', () => {
+  localStorage.setItem('structure-sense:language', 'tr')
+  renderApp()
+  expect(screen.getByRole('heading', { name: 'İki atom arasındaki boşluk' })).toBeInTheDocument()
+})
 
 it('presents the guided distance lesson in Turkish', () => {
   renderApp('tr')

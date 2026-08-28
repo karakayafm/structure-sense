@@ -22,11 +22,11 @@ export function isLanguage(value: unknown): value is Language {
   return value === 'tr' || value === 'en'
 }
 
+export const defaultLanguage: Language = 'en'
+
 export function resolveInitialLanguage(): Language {
   const stored = globalThis.localStorage?.getItem(storageKey)
-  if (isLanguage(stored)) return stored
-  const preferred = globalThis.navigator?.languages?.find((tag) => /^(tr|en)\b/i.test(tag))
-  return preferred?.toLowerCase().startsWith('en') ? 'en' : 'tr'
+  return isLanguage(stored) ? stored : defaultLanguage
 }
 
 export { copy }
