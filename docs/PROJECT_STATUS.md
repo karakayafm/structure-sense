@@ -9,6 +9,7 @@
 - Chromium + yazılımsal WebGL ile 1440×900 masaüstü ve 390×844 mobil görünüm doğrulandı; 1CRN sahnesi yüklendi.
 - GitHub deposu oluşturuldu; çalışan Faz 1 checkpoint'i `main` dalına yedeklendi.
 - CI ve Pages iş akışları özellik dalındaki draft PR ile doğrulanacak.
+- Arayüz Türkçe/İngilizce iki dilli; başlıktaki dil düğmesi tüm dersi çevirir, seçim tarayıcıda saklanır.
 
 ## Sıradaki
 
@@ -16,4 +17,4 @@ Draft PR kontrolleri ve ardından Faz 2 seçim durum makinesi ile açı/dihedral
 
 ## Bilinen sınırlamalar
 
-Faz 1 yalnız yerel 1CRN ve mesafe dersini kapsar. Dil düğmesi henüz İngilizceye geçmez. Serbest keşif ve protein torsiyonları sonraki fazlardadır.
+Faz 1 yalnız yerel 1CRN ve mesafe dersini kapsar. Serbest keşif ve protein torsiyonları sonraki fazlardadır.
